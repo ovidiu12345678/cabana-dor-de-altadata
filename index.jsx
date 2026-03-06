@@ -213,7 +213,7 @@ function TopBar() {
         maxWidth: 1200, margin: "0 auto", padding: "14px 28px",
         display: "flex", justifyContent: "space-between", alignItems: "center",
         flexWrap: "wrap", gap: 12,
-      }}>
+      }} className="topbar-inner">
         <a href="#" onClick={(e) => { e.preventDefault(); var el = document.getElementById("hero"); if (el) el.scrollIntoView({ behavior: "smooth" }); }} style={{
           fontFamily: "'Playfair Display', Georgia, serif",
           fontSize: 20, fontWeight: 700, color: C.gold,
@@ -223,7 +223,7 @@ function TopBar() {
           <SunIcon /> Dor de Altadata
         </a>
 
-        <nav style={{ display: "flex", gap: 28, alignItems: "center", flexWrap: "wrap" }}>
+        <nav className="nav-links" style={{ display: "flex", gap: 28, alignItems: "center", flexWrap: "wrap" }}>
           {["Despre", "Foto", "Video", "Contact"].map(function(s) {
             return (
               <a key={s} href="#" onClick={(e) => { e.preventDefault(); var el = document.getElementById(s.toLowerCase()); if (el) el.scrollIntoView({ behavior: "smooth" }); }} style={{
@@ -306,7 +306,7 @@ function Hero() {
           O cabana izolata in munti, unde timpul sta pe loc si natura vorbeste in culori de apus.
         </p>
 
-        <a href="#" onClick={(e) => { e.preventDefault(); var el = document.getElementById("despre"); if (el) el.scrollIntoView({ behavior: "smooth" }); }} style={{
+        <a href="#" className="hero-cta" onClick={(e) => { e.preventDefault(); var el = document.getElementById("despre"); if (el) el.scrollIntoView({ behavior: "smooth" }); }} style={{
           display: "inline-flex", alignItems: "center", gap: 10,
           padding: "16px 44px", borderRadius: 50,
           background: "linear-gradient(135deg, #f0c754, #e8a630, #d4741a)",
@@ -329,7 +329,7 @@ function Despre() {
   var [ref, vis] = useInView();
 
   return (
-    <section id="despre" style={{
+    <section id="despre" className="sec" style={{
       padding: "100px 24px", background: C.warmWhite,
       position: "relative", overflow: "hidden",
       scrollMarginTop: 70,
@@ -367,7 +367,7 @@ function Despre() {
           <div>
             {aboutTexts.map(function(p, i) {
               return (
-                <p key={i} style={{
+                <p key={i} className="about-text" style={{
                   fontFamily: "'Lora', Georgia, serif", fontSize: 18,
                   lineHeight: 1.9, color: C.bark, margin: "0 0 22px",
                   opacity: vis ? 1 : 0,
@@ -449,7 +449,7 @@ function Foto() {
   }
 
   return (
-    <section id="foto" style={{
+    <section id="foto" className="sec" style={{
       padding: "100px 24px",
       background: "linear-gradient(180deg, #1c0e08 0%, #3b1a0a 50%, #1c0e08 100%)",
       position: "relative",
@@ -498,7 +498,7 @@ function Foto() {
           ) : (
             PHOTOS.map(function(p, i) {
               return (
-                <div key={i} style={{
+                <div key={i} className="gallery-photo" style={{
                   position: "relative", borderRadius: 16, overflow: "hidden",
                   minWidth: 320, maxWidth: 420, aspectRatio: "3/2", cursor: "pointer",
                   opacity: vis ? 1 : 0,
@@ -562,7 +562,7 @@ function Foto() {
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
           cursor: "pointer",
         }} onClick={function() { setSelected(null); }}>
-          <div style={{
+          <div className="fullscreen-row" style={{
             display: "flex", alignItems: "center", gap: 24,
             cursor: "default",
           }} onClick={function(e) { e.stopPropagation(); }}>
@@ -623,7 +623,7 @@ function VideoSection() {
   var currentVideo = VIDEO_SOURCES[selected] || VIDEO_SOURCES[0] || null;
 
   return (
-    <section id="video" style={{
+    <section id="video" className="sec" style={{
       padding: "100px 24px",
       background: C.warmWhite,
       position: "relative", overflow: "hidden",
@@ -736,7 +736,7 @@ function VideoSection() {
             display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
             cursor: "pointer",
           }} onClick={function() { setFullSelected(null); }}>
-            <div style={{
+            <div className="fullscreen-row" style={{
               display: "flex", alignItems: "center", gap: 24, cursor: "default",
             }} onClick={function(e) { e.stopPropagation(); }}>
               <button
@@ -837,7 +837,7 @@ function Contact() {
   }
 
   return (
-    <section id="contact" style={{
+    <section id="contact" className="sec" style={{
       padding: "100px 24px",
       background: "linear-gradient(165deg, #1c0e08, #3b1a0a, #6b2033)",
       position: "relative", overflow: "hidden",
@@ -870,7 +870,7 @@ function Contact() {
           display: "flex", flexDirection: "column", gap: 20,
           marginTop: 48, alignItems: "center",
         }}>
-          <a href={"tel:" + CABIN_PHONE} style={cardSt} onMouseEnter={hIn} onMouseLeave={hOut}>
+          <a href={"tel:" + CABIN_PHONE} className="contact-card" style={cardSt} onMouseEnter={hIn} onMouseLeave={hOut}>
             <div style={iconBox}><PhoneIcon size={22} color={C.sunsetDeep} /></div>
             <div style={{ textAlign: "left" }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: C.stone, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 4 }}>Telefon</div>
@@ -878,7 +878,7 @@ function Contact() {
             </div>
           </a>
 
-          <a href={"mailto:" + CABIN_EMAIL} style={cardSt} onMouseEnter={hIn} onMouseLeave={hOut}>
+          <a href={"mailto:" + CABIN_EMAIL} className="contact-card" style={cardSt} onMouseEnter={hIn} onMouseLeave={hOut}>
             <div style={iconBox}><MailIcon size={22} color={C.sunsetDeep} /></div>
             <div style={{ textAlign: "left" }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: C.stone, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 4 }}>Email</div>
@@ -938,7 +938,27 @@ export default function App() {
         ".galleryScroll { -ms-overflow-style: none; scrollbar-width: none; } " +
         ".galleryScroll::-webkit-scrollbar { display: none; } " +
         "::selection { background: rgba(232,166,48,0.3); color: #1c0e08; } " +
-        "@keyframes heroFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.04); } }"
+        "@keyframes heroFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.04); } } " +
+        "@media (max-width: 768px) { " +
+        "  .sec { padding: 70px 18px !important; } " +
+        "  .topbar-inner { padding: 10px 18px !important; } " +
+        "  .nav-links { gap: 18px !important; } " +
+        "  .gallery-photo { min-width: 260px !important; max-width: 340px !important; } " +
+        "  .fullscreen-row { gap: 12px !important; } " +
+        "  .about-text { font-size: 16px !important; } " +
+        "} " +
+        "@media (max-width: 480px) { " +
+        "  .sec { padding: 56px 12px !important; } " +
+        "  .topbar-inner { padding: 10px 14px !important; } " +
+        "  .nav-links { gap: 14px !important; } " +
+        "  .nav-links a { font-size: 12px !important; letter-spacing: 1px !important; } " +
+        "  .gallery-photo { min-width: 220px !important; max-width: 280px !important; } " +
+        "  .fullscreen-row { gap: 8px !important; } " +
+        "  .hero-cta { padding: 14px 28px !important; font-size: 13px !important; } " +
+        "  .contact-card { padding: 16px 18px !important; } " +
+        "  .contact-card .card-value { font-size: 15px !important; } " +
+        "  .about-text { font-size: 15px !important; } " +
+        "}"
       }</style>
       <TopBar />
       <Hero />
