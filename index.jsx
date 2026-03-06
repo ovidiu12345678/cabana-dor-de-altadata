@@ -191,9 +191,8 @@ var headingStyle = {
 };
 
 function TopBar() {
-  var scrollState = useState(false);
-  var scrolled = scrollState[0];
-  var setScrolled = scrollState[1];
+  var [scrolled, setScrolled] = useState(false);
+  var [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(function() {
     function h() { setScrolled(window.scrollY > 60); }
@@ -201,10 +200,17 @@ function TopBar() {
     return function() { window.removeEventListener("scroll", h); };
   }, []);
 
+  /** @param {string} id */
+  function navTo(id) {
+    setMenuOpen(false);
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
-    <div style={{
+    <div className="topbar" style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? "rgba(28,14,8,0.93)" : "transparent",
+      background: scrolled ? "rgba(28,14,8,0.97)" : "transparent",
       backdropFilter: scrolled ? "blur(14px)" : "none",
       transition: "all 0.5s cubic-bezier(.4,0,.2,1)",
       borderBottom: scrolled ? "1px solid rgba(232,166,48,0.2)" : "1px solid transparent",
@@ -212,21 +218,36 @@ function TopBar() {
       <div style={{
         maxWidth: 1200, margin: "0 auto", padding: "14px 28px",
         display: "flex", justifyContent: "space-between", alignItems: "center",
-        flexWrap: "wrap", gap: 12,
       }} className="topbar-inner">
-        <a href="#" onClick={(e) => { e.preventDefault(); var el = document.getElementById("hero"); if (el) el.scrollIntoView({ behavior: "smooth" }); }} style={{
+        <a href="#" onClick={(e) => { e.preventDefault(); navTo("hero"); }} style={{
           fontFamily: "'Playfair Display', Georgia, serif",
           fontSize: 20, fontWeight: 700, color: C.gold,
           textDecoration: "none", letterSpacing: 1,
-          display: "flex", alignItems: "center", gap: 8, cursor: "pointer",
+          display: "flex", alignItems: "center", gap: 8, cursor: "pointer", flexShrink: 0,
         }}>
           <SunIcon /> Dor de Altadata
         </a>
 
-        <nav className="nav-links" style={{ display: "flex", gap: 28, alignItems: "center", flexWrap: "wrap" }}>
+        {/* Hamburger button – visible only on mobile via CSS */}
+        <button
+          className="hamburger"
+          onClick={function() { setMenuOpen(function(o) { return !o; }); }}
+          style={{
+            display: "none", flexDirection: "column", justifyContent: "center",
+            alignItems: "center", gap: 5, width: 40, height: 40,
+            background: "transparent", border: "none", cursor: "pointer", padding: 4,
+          }}
+          aria-label="Meniu"
+        >
+          <span className={"ham-line" + (menuOpen ? " open1" : "")} style={{ display: "block", width: 22, height: 2, background: C.gold, borderRadius: 2, transition: "all 0.3s" }} />
+          <span className={"ham-line" + (menuOpen ? " open2" : "")} style={{ display: "block", width: 22, height: 2, background: C.gold, borderRadius: 2, transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+          <span className={"ham-line" + (menuOpen ? " open3" : "")} style={{ display: "block", width: 22, height: 2, background: C.gold, borderRadius: 2, transition: "all 0.3s" }} />
+        </button>
+
+        <nav className={"nav-links" + (menuOpen ? " nav-open" : "")} style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {["Despre", "Foto", "Video", "Contact"].map(function(s) {
             return (
-              <a key={s} href="#" onClick={(e) => { e.preventDefault(); var el = document.getElementById(s.toLowerCase()); if (el) el.scrollIntoView({ behavior: "smooth" }); }} style={{
+              <a key={s} href="#" onClick={(e) => { e.preventDefault(); navTo(s.toLowerCase()); }} style={{
                 color: C.cream, textDecoration: "none",
                 fontFamily: "'DM Sans', sans-serif", fontSize: 14,
                 letterSpacing: 1.5, textTransform: "uppercase",
@@ -874,15 +895,15 @@ function Contact() {
             <div style={iconBox}><PhoneIcon size={22} color={C.sunsetDeep} /></div>
             <div style={{ textAlign: "left" }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: C.stone, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 4 }}>Telefon</div>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, color: C.cream, fontWeight: 600 }}>{CABIN_PHONE}</div>
+              <div className="contact-card-value" style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, color: C.cream, fontWeight: 600 }}>{CABIN_PHONE}</div>
             </div>
           </a>
 
           <a href={"mailto:" + CABIN_EMAIL} className="contact-card" style={cardSt} onMouseEnter={hIn} onMouseLeave={hOut}>
             <div style={iconBox}><MailIcon size={22} color={C.sunsetDeep} /></div>
-            <div style={{ textAlign: "left" }}>
+            <div style={{ textAlign: "left", minWidth: 0, flex: 1 }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: C.stone, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 4 }}>Email</div>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: C.cream, fontWeight: 600 }}>{CABIN_EMAIL}</div>
+              <div className="contact-card-value" style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, color: C.cream, fontWeight: 600, wordBreak: "break-all" }}>{CABIN_EMAIL}</div>
             </div>
           </a>
 
@@ -939,25 +960,60 @@ export default function App() {
         ".galleryScroll::-webkit-scrollbar { display: none; } " +
         "::selection { background: rgba(232,166,48,0.3); color: #1c0e08; } " +
         "@keyframes heroFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.04); } } " +
+
+        /* ---------- hamburger / mobile nav ---------- */
+        ".hamburger { display: none !important; } " +
+        ".nav-links { transition: none; } " +
+
+        /* ---------- tablet: 768px ---------- */
         "@media (max-width: 768px) { " +
-        "  .sec { padding: 70px 18px !important; } " +
-        "  .topbar-inner { padding: 10px 18px !important; } " +
-        "  .nav-links { gap: 18px !important; } " +
-        "  .gallery-photo { min-width: 260px !important; max-width: 340px !important; } " +
-        "  .fullscreen-row { gap: 12px !important; } " +
-        "  .about-text { font-size: 16px !important; } " +
+        "  .sec { padding: 72px 20px !important; } " +
+        "  .topbar-inner { padding: 12px 20px !important; } " +
+        "  .gallery-photo { min-width: 250px !important; max-width: 320px !important; } " +
+        "  .fullscreen-row { gap: 10px !important; } " +
+        "  .about-text { font-size: 16px !important; line-height: 1.8 !important; } " +
         "} " +
+
+        /* ---------- large phone: 640px – show hamburger ---------- */
+        "@media (max-width: 640px) { " +
+        "  .hamburger { display: flex !important; } " +
+        "  .nav-links { " +
+        "    display: none !important; position: absolute; top: 100%; left: 0; right: 0; " +
+        "    flex-direction: column !important; gap: 0 !important; " +
+        "    background: rgba(20,10,5,0.98); backdrop-filter: blur(16px); " +
+        "    border-bottom: 1px solid rgba(232,166,48,0.15); " +
+        "    padding: 8px 0; " +
+        "  } " +
+        "  .nav-links.nav-open { display: flex !important; } " +
+        "  .nav-links a { " +
+        "    padding: 14px 24px !important; font-size: 13px !important; " +
+        "    letter-spacing: 1.5px !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; " +
+        "    width: 100%; " +
+        "  } " +
+        "  .topbar { position: fixed; } " +
+        "  .topbar-inner { padding: 12px 18px !important; position: relative; } " +
+        "  .sec { padding: 64px 18px !important; } " +
+        "  .gallery-photo { min-width: 230px !important; max-width: 300px !important; } " +
+        "} " +
+
+        /* ---------- small phone: 480px ---------- */
         "@media (max-width: 480px) { " +
-        "  .sec { padding: 56px 12px !important; } " +
+        "  .sec { padding: 56px 14px !important; } " +
         "  .topbar-inner { padding: 10px 14px !important; } " +
-        "  .nav-links { gap: 14px !important; } " +
-        "  .nav-links a { font-size: 12px !important; letter-spacing: 1px !important; } " +
-        "  .gallery-photo { min-width: 220px !important; max-width: 280px !important; } " +
-        "  .fullscreen-row { gap: 8px !important; } " +
-        "  .hero-cta { padding: 14px 28px !important; font-size: 13px !important; } " +
-        "  .contact-card { padding: 16px 18px !important; } " +
-        "  .contact-card .card-value { font-size: 15px !important; } " +
+        "  .gallery-photo { min-width: 200px !important; max-width: 260px !important; } " +
+        "  .fullscreen-row { gap: 6px !important; } " +
+        "  .hero-cta { padding: 14px 30px !important; font-size: 13px !important; } " +
+        "  .contact-card { padding: 14px 16px !important; } " +
+        "  .contact-card-value { font-size: 15px !important; word-break: break-all !important; } " +
         "  .about-text { font-size: 15px !important; } " +
+        "} " +
+
+        /* ---------- very small phone: 360px ---------- */
+        "@media (max-width: 360px) { " +
+        "  .sec { padding: 48px 10px !important; } " +
+        "  .gallery-photo { min-width: 180px !important; max-width: 230px !important; } " +
+        "  .hero-cta { padding: 12px 22px !important; font-size: 12px !important; } " +
+        "  .contact-card { padding: 12px 12px !important; } " +
         "}"
       }</style>
       <TopBar />
