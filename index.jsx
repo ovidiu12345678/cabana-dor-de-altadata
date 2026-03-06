@@ -409,7 +409,7 @@ function Despre() {
           </div>
         </div>
 
-        <div style={{
+        <div className="features-grid" style={{
           display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
           gap: 20, marginTop: 52,
         }}>
@@ -488,11 +488,11 @@ function Foto() {
         <SectionLabel light>Galerie</SectionLabel>
         <h2 style={{ ...headingStyle, color: C.peach }}>Foto</h2>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 48 }}>
+        <div className="gallery-outer" style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 48 }}>
           <button
             type="button"
             onClick={function() { scrollGallery(-440); }}
-            style={{
+            className="nav-btn" style={{
               flexShrink: 0, width: 48, height: 48, borderRadius: 999,
               border: "none", background: "rgba(0,0,0,0.4)",
               color: "white", cursor: "pointer", fontSize: 24,
@@ -500,7 +500,7 @@ function Foto() {
             }}
           >◀</button>
 
-          <div ref={galleryRef} className="galleryScroll" style={{
+          <div ref={galleryRef} className="galleryScroll gallery-inner" style={{
             flex: 1, display: "flex",
             gap: 20,
             overflowX: "auto",
@@ -560,7 +560,7 @@ function Foto() {
           <button
             type="button"
             onClick={function() { scrollGallery(440); }}
-            style={{
+            className="nav-btn" style={{
               flexShrink: 0, width: 48, height: 48, borderRadius: 999,
               border: "none", background: "rgba(0,0,0,0.4)",
               color: "white", cursor: "pointer", fontSize: 24,
@@ -671,7 +671,7 @@ function VideoSection() {
         <SectionLabel>Experienta</SectionLabel>
         <h2 style={headingStyle}>Video</h2>
 
-        <div style={{ marginTop: 48, display: "flex", alignItems: "center", gap: 12 }}>
+        <div className="gallery-outer" style={{ marginTop: 48, display: "flex", alignItems: "center", gap: 12 }}>
           {VIDEO_SOURCES.length > 1 && (
             <button
               type="button"
@@ -768,7 +768,7 @@ function VideoSection() {
                   var next = (idx - 1 + VIDEO_SOURCES.length) % VIDEO_SOURCES.length;
                   setFullSelected(next); setSelected(next);
                 }}
-                style={{
+                className="nav-btn" style={{
                   flexShrink: 0, width: 48, height: 48, borderRadius: 999,
                   border: "none", background: "rgba(0,0,0,0.4)",
                   color: "white", cursor: "pointer", fontSize: 24,
@@ -795,7 +795,7 @@ function VideoSection() {
                   var next = (idx + 1) % VIDEO_SOURCES.length;
                   setFullSelected(next); setSelected(next);
                 }}
-                style={{
+                className="nav-btn" style={{
                   flexShrink: 0, width: 48, height: 48, borderRadius: 999,
                   border: "none", background: "rgba(0,0,0,0.4)",
                   color: "white", cursor: "pointer", fontSize: 24,
@@ -952,6 +952,7 @@ export default function App() {
         rel="stylesheet"
       />
       <style>{
+        /* ── Reset & base ─────────────────────────────────── */
         "*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; } " +
         "html { scroll-behavior: smooth; } " +
         "body { background: #fefaf4; } " +
@@ -959,61 +960,92 @@ export default function App() {
         ".galleryScroll { -ms-overflow-style: none; scrollbar-width: none; } " +
         ".galleryScroll::-webkit-scrollbar { display: none; } " +
         "::selection { background: rgba(232,166,48,0.3); color: #1c0e08; } " +
-        "@keyframes heroFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-30px) scale(1.04); } } " +
+        "@keyframes heroFloat { 0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.04);}} " +
 
-        /* ---------- hamburger / mobile nav ---------- */
-        ".hamburger { display: none !important; } " +
-        ".nav-links { transition: none; } " +
+        /* ── Fluid sizing – scalare continua cu clamp() ─── */
 
-        /* ---------- tablet: 768px ---------- */
-        "@media (max-width: 768px) { " +
-        "  .sec { padding: 72px 20px !important; } " +
-        "  .topbar-inner { padding: 12px 20px !important; } " +
-        "  .gallery-photo { min-width: 250px !important; max-width: 320px !important; } " +
-        "  .fullscreen-row { gap: 10px !important; } " +
-        "  .about-text { font-size: 16px !important; line-height: 1.8 !important; } " +
+        /* Sectiuni: padding vertical + orizontal fluid */
+        ".sec { padding: clamp(52px,8vw,100px) clamp(14px,3.5vw,24px) !important; } " +
+
+        /* Topbar inner */
+        ".topbar-inner { padding: clamp(10px,1.4vw,14px) clamp(16px,3vw,28px) !important; } " +
+
+        /* Nav desktop – gap si font fluid */
+        ".nav-links { gap: clamp(16px,2.4vw,28px) !important; } " +
+        ".nav-links a { font-size: clamp(11px,1.3vw,14px) !important; } " +
+
+        /* Butoane ◀▶ – dimensiune si font fluid */
+        ".nav-btn { " +
+        "  width:  clamp(34px,5vw,48px) !important; " +
+        "  height: clamp(34px,5vw,48px) !important; " +
+        "  font-size: clamp(14px,2.8vw,24px) !important; " +
+        "  flex-shrink: 0 !important; " +
         "} " +
 
-        /* ---------- large phone: 640px – show hamburger ---------- */
+        /* Gallery outer row (buton + scroll + buton) */
+        ".gallery-outer { " +
+        "  gap: clamp(6px,1.2vw,12px) !important; " +
+        "  margin-top: clamp(28px,4.5vw,48px) !important; " +
+        "} " +
+
+        /* Gap intre poze in galerie */
+        ".gallery-inner { gap: clamp(10px,2vw,20px) !important; } " +
+
+        /* Dimensiunea fiecarei poze */
+        ".gallery-photo { " +
+        "  min-width: clamp(180px,42vw,320px) !important; " +
+        "  max-width: clamp(220px,52vw,420px) !important; " +
+        "} " +
+
+        /* Gap intre butoane si media in fullscreen */
+        ".fullscreen-row { gap: clamp(6px,1.8vw,24px) !important; } " +
+
+        /* Buton CTA hero */
+        ".hero-cta { " +
+        "  padding: clamp(12px,1.8vw,16px) clamp(22px,4vw,44px) !important; " +
+        "  font-size: clamp(12px,1.5vw,15px) !important; " +
+        "} " +
+
+        /* Text Despre */
+        ".about-text { " +
+        "  font-size: clamp(14px,3.2vw,18px) !important; " +
+        "  line-height: 1.85 !important; " +
+        "} " +
+
+        /* Grid features */
+        ".features-grid { " +
+        "  gap: clamp(12px,2vw,20px) !important; " +
+        "  grid-template-columns: repeat(auto-fit, minmax(clamp(150px,28vw,200px), 1fr)) !important; " +
+        "} " +
+
+        /* Contact cards */
+        ".contact-card { " +
+        "  padding: clamp(14px,2.4vw,20px) clamp(16px,3.2vw,36px) !important; " +
+        "} " +
+        ".contact-card-value { " +
+        "  font-size: clamp(13px,2.8vw,20px) !important; " +
+        "  word-break: break-all; " +
+        "} " +
+
+        /* ── Hamburger menu (numai sub 640px) ────────────── */
+        ".hamburger { display: none !important; } " +
+
         "@media (max-width: 640px) { " +
         "  .hamburger { display: flex !important; } " +
         "  .nav-links { " +
         "    display: none !important; position: absolute; top: 100%; left: 0; right: 0; " +
         "    flex-direction: column !important; gap: 0 !important; " +
         "    background: rgba(20,10,5,0.98); backdrop-filter: blur(16px); " +
-        "    border-bottom: 1px solid rgba(232,166,48,0.15); " +
-        "    padding: 8px 0; " +
+        "    border-bottom: 1px solid rgba(232,166,48,0.15); padding: 8px 0; " +
         "  } " +
         "  .nav-links.nav-open { display: flex !important; } " +
         "  .nav-links a { " +
-        "    padding: 14px 24px !important; font-size: 13px !important; " +
-        "    letter-spacing: 1.5px !important; border-bottom: 1px solid rgba(255,255,255,0.06) !important; " +
+        "    padding: 14px 24px !important; font-size: 14px !important; " +
+        "    letter-spacing: 1.5px !important; " +
+        "    border-bottom: 1px solid rgba(255,255,255,0.06) !important; " +
         "    width: 100%; " +
         "  } " +
-        "  .topbar { position: fixed; } " +
-        "  .topbar-inner { padding: 12px 18px !important; position: relative; } " +
-        "  .sec { padding: 64px 18px !important; } " +
-        "  .gallery-photo { min-width: 230px !important; max-width: 300px !important; } " +
-        "} " +
-
-        /* ---------- small phone: 480px ---------- */
-        "@media (max-width: 480px) { " +
-        "  .sec { padding: 56px 14px !important; } " +
-        "  .topbar-inner { padding: 10px 14px !important; } " +
-        "  .gallery-photo { min-width: 200px !important; max-width: 260px !important; } " +
-        "  .fullscreen-row { gap: 6px !important; } " +
-        "  .hero-cta { padding: 14px 30px !important; font-size: 13px !important; } " +
-        "  .contact-card { padding: 14px 16px !important; } " +
-        "  .contact-card-value { font-size: 15px !important; word-break: break-all !important; } " +
-        "  .about-text { font-size: 15px !important; } " +
-        "} " +
-
-        /* ---------- very small phone: 360px ---------- */
-        "@media (max-width: 360px) { " +
-        "  .sec { padding: 48px 10px !important; } " +
-        "  .gallery-photo { min-width: 180px !important; max-width: 230px !important; } " +
-        "  .hero-cta { padding: 12px 22px !important; font-size: 12px !important; } " +
-        "  .contact-card { padding: 12px 12px !important; } " +
+        "  .topbar-inner { position: relative; } " +
         "}"
       }</style>
       <TopBar />
