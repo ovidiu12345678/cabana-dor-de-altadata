@@ -1,0 +1,21 @@
+{
+  "name": "cabana-prezentare",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "node ./scripts/generate-assets.js",
+    "dev": "vite",
+    "prebuild": "node ./scripts/generate-assets.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "postinstall": "node ./scripts/generate-assets.js"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.0"
+  }
+}
