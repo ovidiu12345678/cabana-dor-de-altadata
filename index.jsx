@@ -456,18 +456,29 @@ function Despre() {
 
 function Foto() {
   var [ref, vis] = useInView();
+  var [current, setCurrent] = useState(0);
+  var [direction, setDirection] = useState(/** @type {"left"|"right"} */ ("right"));
   var [selected, setSelected] = useState(/** @type {number|null} */ (null));
-  var galleryRef = useRef(/** @type {HTMLDivElement|null} */ (null));
 
-  /**
-   * Scroll the gallery container by a given offset.
-   * @param {number} offset
-   */
-  function scrollGallery(offset) {
-    var el = galleryRef.current;
-    if (!el) return;
-    el.scrollBy({ left: offset, behavior: "smooth" });
+  function goPrev() {
+    setDirection("left");
+    setCurrent(function(c) { return (c - 1 + PHOTOS.length) % PHOTOS.length; });
   }
+
+  function goNext() {
+    setDirection("right");
+    setCurrent(function(c) { return (c + 1) % PHOTOS.length; });
+  }
+
+  var navBtnStyle = {
+    flexShrink: 0, width: 48, height: 48, borderRadius: 999,
+    border: "none", background: "rgba(0,0,0,0.55)",
+    color: "white", cursor: "pointer", fontSize: 24,
+    display: "flex", alignItems: "center", justifyContent: "center",
+    backdropFilter: "blur(8px)",
+    boxShadow: "0 4px 20px rgba(0,0,0,0.45)",
+    transition: "background 0.2s, transform 0.15s",
+  };
 
   return (
     <section id="foto" className="sec" style={{
@@ -476,7 +487,6 @@ function Foto() {
       position: "relative",
       scrollMarginTop: 70,
     }}>
-      {/* Strălucire caldă ambientală */}
       <div style={{
         position: "absolute", top: "50%", left: "50%",
         transform: "translate(-50%, -50%)",
@@ -484,126 +494,137 @@ function Foto() {
         background: "radial-gradient(ellipse, rgba(212,116,26,0.08), transparent 70%)",
       }} />
 
-      <div ref={ref} style={{ maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1 }}>
+      <div ref={ref} style={{
+        maxWidth: 1100, margin: "0 auto", position: "relative", zIndex: 1,
+        opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(40px)",
+        transition: "all 1s cubic-bezier(.4,0,.2,1)",
+      }}>
         <SectionLabel light>Galerie</SectionLabel>
         <h2 style={{ ...headingStyle, color: C.peach }}>Foto</h2>
 
-        <div className="gallery-outer" style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 48 }}>
-          <button
-            type="button"
-            onClick={function() { scrollGallery(-440); }}
-            className="nav-btn" style={{
-              flexShrink: 0, width: 48, height: 48, borderRadius: 999,
-              border: "none", background: "rgba(0,0,0,0.4)",
-              color: "white", cursor: "pointer", fontSize: 24,
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >◀</button>
-
-          <div ref={galleryRef} className="galleryScroll gallery-inner" style={{
-            flex: 1, display: "flex",
-            gap: 20,
-            overflowX: "auto",
-            padding: "0 0 16px",
-            scrollSnapType: "x mandatory",
+        {PHOTOS.length === 0 ? (
+          <div style={{
+            marginTop: 48, padding: 24, borderRadius: 16,
+            background: "rgba(255,255,255,0.12)", border: "1px solid rgba(232,166,48,0.25)",
+            textAlign: "center", color: C.cream,
           }}>
-          {PHOTOS.length === 0 ? (
-            <div style={{
-              minWidth: 300, padding: 24, borderRadius: 16,
-              background: "rgba(255,255,255,0.12)", border: "1px solid rgba(232,166,48,0.25)",
-              textAlign: "center", color: C.cream,
-            }}>
-              <strong>Nu s-au găsit imagini.</strong><br />
-              Asigură-te că rulezi aplicația prin serverul Vite și accesezi <code>http://localhost:5173</code>.
-            </div>
-          ) : (
-            PHOTOS.map(function(p, i) {
-              return (
-                <div key={i} className="gallery-photo" style={{
-                  position: "relative", borderRadius: 16, overflow: "hidden",
-                  minWidth: 320, maxWidth: 420, aspectRatio: "3/2", cursor: "pointer",
-                  opacity: vis ? 1 : 0,
-                  transform: vis ? "scale(1)" : "scale(0.9)",
-                  transition: "all 0.7s cubic-bezier(.4,0,.2,1) " + (i * 0.05) + "s",
-                  border: "1px solid rgba(232,166,48,0.15)",
-                  scrollSnapAlign: "center",
-                  flex: "0 0 auto",
-                }}
-                  onClick={function() { setSelected(i); }}
-                  onMouseEnter={function(e) {
-                    e.currentTarget.style.transform = "scale(1.03)";
-                    e.currentTarget.style.borderColor = "rgba(232,166,48,0.4)";
-                    e.currentTarget.style.boxShadow = "0 12px 40px rgba(232,166,48,0.2)";
-                    var ov = /** @type {HTMLElement|null} */ (e.currentTarget.querySelector("[data-overlay]"));
-                    if (ov) ov.style.opacity = "1";
-                  }}
-                  onMouseLeave={function(e) {
-                    e.currentTarget.style.transform = "scale(1)";
-                    e.currentTarget.style.borderColor = "rgba(232,166,48,0.15)";
-                    e.currentTarget.style.boxShadow = "none";
-                    var ov = /** @type {HTMLElement|null} */ (e.currentTarget.querySelector("[data-overlay]"));
-                    if (ov) ov.style.opacity = "0";
-                  }}
-                >
-                  <img src={p.src} alt={p.alt} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                  <div data-overlay="true" style={{
-                    position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
-                    background: "linear-gradient(to top, rgba(28,14,8,0.85), transparent 60%)",
-                    opacity: 0, transition: "opacity 0.4s",
-                  }} />
-                </div>
-              );
-            })
-          )}
-        </div>
+            <strong>Nu s-au găsit imagini.</strong>
+          </div>
+        ) : (
+          <>
+            {/* ── Poza principala + sageti ── */}
+            <div className="gallery-outer" style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 48 }}>
+              <button type="button" onClick={goPrev} className="nav-btn" style={navBtnStyle}
+                onMouseEnter={function(e) { e.currentTarget.style.background = "rgba(232,166,48,0.25)"; e.currentTarget.style.transform = "scale(1.1)"; }}
+                onMouseLeave={function(e) { e.currentTarget.style.background = "rgba(0,0,0,0.55)"; e.currentTarget.style.transform = "scale(1)"; }}
+              >◀</button>
 
-          <button
-            type="button"
-            onClick={function() { scrollGallery(440); }}
-            className="nav-btn" style={{
-              flexShrink: 0, width: 48, height: 48, borderRadius: 999,
-              border: "none", background: "rgba(0,0,0,0.4)",
-              color: "white", cursor: "pointer", fontSize: 24,
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}
-          >▶</button>
-        </div>
-        <div style={{
-          marginTop: 16, textAlign: "center",
-          fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "rgba(255,255,255,0.8)",
-        }}>
-          Folosește săgețile pentru a naviga prin galerie →
-        </div>
+              {/* Cadrul foto */}
+              <div style={{
+                flex: 1, position: "relative", borderRadius: 18, overflow: "hidden",
+                aspectRatio: "3/2", cursor: "pointer",
+                boxShadow: "0 20px 70px rgba(0,0,0,0.55), 0 0 100px rgba(232,166,48,0.07)",
+                border: "1px solid rgba(232,166,48,0.2)",
+              }} onClick={function() { setSelected(current); }}>
+                <img
+                  key={current}
+                  src={PHOTOS[current].src}
+                  alt={PHOTOS[current].alt}
+                  className={direction === "right" ? "photo-slide-right" : "photo-slide-left"}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
+                {/* Gradient jos pentru lizibilitate badge-uri */}
+                <div style={{
+                  position: "absolute", bottom: 0, left: 0, right: 0, height: "45%",
+                  background: "linear-gradient(to top, rgba(8,3,1,0.75), transparent)",
+                  pointerEvents: "none",
+                }} />
+                {/* Counter */}
+                <div style={{
+                  position: "absolute", bottom: 14, right: 16,
+                  background: "rgba(28,14,8,0.8)", backdropFilter: "blur(8px)",
+                  color: C.amber, fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "clamp(11px,1.5vw,13px)", fontWeight: 600,
+                  padding: "5px 14px", borderRadius: 20, letterSpacing: 1,
+                  border: "1px solid rgba(232,166,48,0.3)",
+                }}>
+                  {current + 1} / {PHOTOS.length}
+                </div>
+                {/* Hint fullscreen */}
+                <div style={{
+                  position: "absolute", bottom: 14, left: 16,
+                  background: "rgba(28,14,8,0.8)", backdropFilter: "blur(8px)",
+                  color: C.peach, fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "clamp(10px,1.3vw,12px)",
+                  padding: "5px 14px", borderRadius: 20,
+                  border: "1px solid rgba(232,166,48,0.2)", opacity: 0.85,
+                }}>
+                  ↗ Fullscreen
+                </div>
+              </div>
+
+              <button type="button" onClick={goNext} className="nav-btn" style={navBtnStyle}
+                onMouseEnter={function(e) { e.currentTarget.style.background = "rgba(232,166,48,0.25)"; e.currentTarget.style.transform = "scale(1.1)"; }}
+                onMouseLeave={function(e) { e.currentTarget.style.background = "rgba(0,0,0,0.55)"; e.currentTarget.style.transform = "scale(1)"; }}
+              >▶</button>
+            </div>
+
+            {/* Bara de progres */}
+            <div style={{ marginTop: 18, height: 3, background: "rgba(255,255,255,0.1)", borderRadius: 2 }}>
+              <div style={{
+                height: "100%", borderRadius: 2,
+                background: "linear-gradient(90deg, #f0c754, #d4741a)",
+                width: ((current + 1) / PHOTOS.length * 100) + "%",
+                transition: "width 0.45s cubic-bezier(.4,0,.2,1)",
+              }} />
+            </div>
+
+            {/* Titlul pozei */}
+            <div style={{
+              marginTop: 12, textAlign: "center",
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "clamp(12px,1.5vw,14px)",
+              color: "rgba(255,255,255,0.5)", letterSpacing: 1,
+            }}>
+              {PHOTOS[current].alt}
+            </div>
+          </>
+        )}
       </div>
 
+      {/* ── Lightbox fullscreen ── */}
       {selected !== null && (
         <div style={{
           position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 200,
-          background: "rgba(28,14,8,0.92)", backdropFilter: "blur(10px)",
+          background: "rgba(28,14,8,0.95)", backdropFilter: "blur(12px)",
           display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
           cursor: "pointer",
         }} onClick={function() { setSelected(null); }}>
           <div className="fullscreen-row" style={{
-            display: "flex", alignItems: "center", gap: 24,
-            cursor: "default",
+            display: "flex", alignItems: "center", gap: 24, cursor: "default",
           }} onClick={function(e) { e.stopPropagation(); }}>
             <button
               type="button"
-              onClick={function(e) { e.stopPropagation(); setSelected(function(prev) { var idx = prev ?? 0; return (idx - 1 + PHOTOS.length) % PHOTOS.length; }); }}
-              style={{
-                flexShrink: 0, width: 48, height: 48, borderRadius: 999,
-                border: "none", background: "rgba(0,0,0,0.4)",
-                color: "white", cursor: "pointer", fontSize: 24,
-                display: "flex", alignItems: "center", justifyContent: "center",
+              onClick={function(e) {
+                e.stopPropagation();
+                setSelected(function(prev) {
+                  var idx = prev ?? 0;
+                  var next = (idx - 1 + PHOTOS.length) % PHOTOS.length;
+                  setCurrent(next);
+                  return next;
+                });
               }}
+              className="nav-btn" style={navBtnStyle}
             >◀</button>
 
             <img
+              key={"fs-" + selected}
               src={PHOTOS[selected].src}
               alt={PHOTOS[selected].alt}
+              className="photo-slide-right"
               style={{
                 maxWidth: "80vw", maxHeight: "80vh", borderRadius: 14,
-                boxShadow: "0 20px 80px rgba(0,0,0,0.6), 0 0 60px rgba(232,166,48,0.1)",
+                boxShadow: "0 24px 90px rgba(0,0,0,0.7), 0 0 60px rgba(232,166,48,0.1)",
                 border: "1px solid rgba(232,166,48,0.2)",
                 display: "block",
               }}
@@ -611,20 +632,30 @@ function Foto() {
 
             <button
               type="button"
-              onClick={function(e) { e.stopPropagation(); setSelected(function(prev) { var idx = prev ?? 0; return (idx + 1) % PHOTOS.length; }); }}
-              style={{
-                flexShrink: 0, width: 48, height: 48, borderRadius: 999,
-                border: "none", background: "rgba(0,0,0,0.4)",
-                color: "white", cursor: "pointer", fontSize: 24,
-                display: "flex", alignItems: "center", justifyContent: "center",
+              onClick={function(e) {
+                e.stopPropagation();
+                setSelected(function(prev) {
+                  var next = ((prev ?? 0) + 1) % PHOTOS.length;
+                  setCurrent(next);
+                  return next;
+                });
               }}
+              className="nav-btn" style={navBtnStyle}
             >▶</button>
+          </div>
+
+          {/* Counter fullscreen */}
+          <div style={{
+            marginTop: 16, color: C.amber, fontFamily: "'DM Sans', sans-serif",
+            fontSize: 13, letterSpacing: 1, opacity: 0.8,
+          }}>
+            {(selected ?? 0) + 1} / {PHOTOS.length}
           </div>
 
           <div
             onClick={function(e) { e.stopPropagation(); setSelected(null); }}
             style={{
-              marginTop: 24, color: C.peach, fontSize: 32, fontWeight: 300,
+              marginTop: 12, color: C.peach, fontSize: 32, fontWeight: 300,
               fontFamily: "'DM Sans', sans-serif", cursor: "pointer", lineHeight: 1,
             }}
           >✕</div>
@@ -961,6 +992,18 @@ export default function App() {
         ".galleryScroll::-webkit-scrollbar { display: none; } " +
         "::selection { background: rgba(232,166,48,0.3); color: #1c0e08; } " +
         "@keyframes heroFloat { 0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.04);}} " +
+        "@keyframes photoSlideInRight { " +
+        "  0%   { transform: translateX(90px) scale(0.93); opacity: 0; filter: blur(6px); } " +
+        "  60%  { filter: blur(0); } " +
+        "  100% { transform: translateX(0) scale(1); opacity: 1; filter: blur(0); } " +
+        "} " +
+        "@keyframes photoSlideInLeft { " +
+        "  0%   { transform: translateX(-90px) scale(0.93); opacity: 0; filter: blur(6px); } " +
+        "  60%  { filter: blur(0); } " +
+        "  100% { transform: translateX(0) scale(1); opacity: 1; filter: blur(0); } " +
+        "} " +
+        ".photo-slide-right { animation: photoSlideInRight 0.6s cubic-bezier(.4,0,.2,1) both; } " +
+        ".photo-slide-left  { animation: photoSlideInLeft  0.6s cubic-bezier(.4,0,.2,1) both; } " +
 
         /* ── Fluid sizing – scalare continua cu clamp() ─── */
 
