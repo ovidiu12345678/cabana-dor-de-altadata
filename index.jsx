@@ -579,15 +579,6 @@ function Foto() {
               }} />
             </div>
 
-            {/* Titlul pozei */}
-            <div style={{
-              marginTop: 12, textAlign: "center",
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "clamp(12px,1.5vw,14px)",
-              color: "rgba(255,255,255,0.5)", letterSpacing: 1,
-            }}>
-              {PHOTOS[current].alt}
-            </div>
           </>
         )}
       </div>
