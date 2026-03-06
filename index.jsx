@@ -5,7 +5,6 @@
 /// <reference types="vite/client" />
 import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import { images as manifestImages, videos as manifestVideos } from "./asset-manifest.js";
 import heroBg from "./img_bacground_home/ChatGPT Image 6 mar. 2026, 23_07_15.png";
 
 var CABIN_PHONE = "+40 760 303 031";
@@ -35,25 +34,6 @@ var C = {
  * @param {string} pattern
  * @returns {Record<string, ModuleWithDefault>}
  */
-function safeGlobEager(pattern) {
-  if (typeof import.meta.globEager === "function") {
-    return import.meta.globEager(pattern);
-  }
-  // Debug information: if you're running this via `file://` the Vite runtime is not present.
-  console.warn("import.meta.globEager is not available. Are you running via Vite dev server?", {
-    pattern,
-    importMeta: {
-      url: import.meta.url,
-      env: import.meta.env ? { ...import.meta.env } : "<no env>",
-      hasGlobEager: typeof import.meta.globEager === "function",
-    },
-  });
-  return {};
-}
-
-// Încărcăm imagini din folderul /imagini via Vite glob.
-// Numele fișierelor devin alt text simplificat.
-const imageModules = safeGlobEager("./imagini/*.{jpg,jpeg,png,webp}");
 
 /**
  * Generează un text alternativ din numele fișierului.
@@ -68,38 +48,19 @@ function makeAltFromPath(path) {
   return name || "Imagine";
 }
 
-var PHOTOS = (Object.keys(imageModules).length ? Object.keys(imageModules).map(
-  /** @param {string} path */
-  function(path) {
-    var mod = /** @type {ModuleWithDefault} */ (imageModules[path]);
-    return { src: mod.default, alt: makeAltFromPath(path) };
-  }
-) : []);
+// Vite 5: import.meta.glob cu { eager: true } înlocuiește globEager
+const imageModules = import.meta.glob("./imagini/*.{jpg,jpeg,png,webp}", { eager: true });
+const videoModules = import.meta.glob("./video/*.{mp4,webm}", { eager: true });
 
-// Fallback: dacă globEager nu e disponibil (de ex. când deschizi pagina direct `file://`),
-// adaugăm imaginile detectate în manifest.
-if (PHOTOS.length === 0 && manifestImages && manifestImages.length) {
-  PHOTOS = manifestImages.map(function(src) {
-    return { src: src, alt: makeAltFromPath(src) };
-  });
-}
+var PHOTOS = Object.keys(imageModules).map(function(path) {
+  var mod = /** @type {ModuleWithDefault} */ (imageModules[path]);
+  return { src: mod.default, alt: makeAltFromPath(path) };
+});
 
-// Încărcăm video din folderul /video.
-const videoModules = safeGlobEager("./video/*.{mp4,webm}");
-var VIDEO_SOURCES = (Object.keys(videoModules).length ? Object.keys(videoModules).map(
-  /** @param {string} path */
-  function(path) {
-    var mod = /** @type {ModuleWithDefault} */ (videoModules[path]);
-    return { src: mod.default, label: makeAltFromPath(path) };
-  }
-) : []);
-
-// Fallback pentru video (dacă nu există globEager). Permite rularea direct din filesystem/file://
-if (VIDEO_SOURCES.length === 0 && manifestVideos && manifestVideos.length) {
-  VIDEO_SOURCES = manifestVideos.map(function(src) {
-    return { src: src, label: makeAltFromPath(src) };
-  });
-}
+var VIDEO_SOURCES = Object.keys(videoModules).map(function(path) {
+  var mod = /** @type {ModuleWithDefault} */ (videoModules[path]);
+  return { src: mod.default, label: makeAltFromPath(path) };
+});
 
 var aboutTexts = [
   "Totul a pornit din dragostea de traiul de alta data. S-a ivit ocazia sa o gasesc cabanuta. Vechii proprietari erau batrani si se asezau pe sezlong in fata cabanei \u2014 de acolo se vedea foarte bine taramul cu varful lui.",
