@@ -8,7 +8,7 @@ import ReactDOM from "react-dom/client";
 import heroBg from "./img_bacground_home/ChatGPT Image 6 mar. 2026, 23_07_15.png";
 
 var CABIN_PHONE = "+40 760 303 031";
-var CABIN_EMAIL = "contact@cabana-dor-de-altadata.ro";
+var CABIN_EMAIL = "panossu71@hotmail.com";
 var CABIN_FACEBOOK = "https://www.facebook.com/";
 
 var C = {
@@ -63,17 +63,17 @@ var VIDEO_SOURCES = Object.keys(videoModules).map(function(path) {
 });
 
 var aboutTexts = [
-  "Totul a pornit din dragostea de traiul de alta data. S-a ivit ocazia sa o gasesc cabanuta. Vechii proprietari erau batrani si se asezau pe sezlong in fata cabanei \u2014 de acolo se vedea foarte bine taramul cu varful lui.",
-  "Cabana este foarte izolata, foarte linistita. Singurul deranj este, din cand in cand, trenul care trece prin vale.",
-  "Camerele din lemn, fiecare cu soba de lemn, aduc cu drag aminte copilaria noastra. Se vede lumina focului in camera. Cine doreste sa se trezeasca in atmosfera timpului de alta data, aici are posibilitatea.",
-  "In spatele cabanutelor exista un parau care vine din muntii Hurghis, acompaniat de un mic lac, si se revarsa la circa 150 m in raul Moldova.",
+  "Totul a pornit din dragostea de traiul de altădată. S-a ivit ocazia să o găsesc pe această căbănuță. Vechii proprietari erau bătrâni și se așezau pe șezlong în fața cabanei — de acolo se vedea foarte bine tărâmul cu vârful lui.",
+  "Cabana este foarte izolată, foarte liniștită. Singurul deranj este, din când în când, trenul care trece prin vale.",
+  "Camerele din lemn, fiecare cu sobă de lemn, aduc cu drag aminte copilăria noastră. Se vede lumina focului în cameră. Cine dorește să se trezească în atmosfera timpului de altădată, aici are posibilitatea.",
+  "În spatele căbănuțelor există un pârâu care vine din munții Hurghiș, însoțit de un mic lac, și se varsă la circa 150 m în râul Moldova.",
 ];
 
 var featuresList = [
-  { icon: "\uD83C\uDF32", title: "Izolare Totala", desc: "Liniste deplina in inima naturii" },
-  { icon: "\uD83D\uDD25", title: "Soba de Lemn", desc: "Foc viu in fiecare camera" },
-  { icon: "\uD83D\uDCA7", title: "Parau de Munte", desc: "Apa cristalina din muntii Hurghis" },
-  { icon: "\u26F0\uFE0F", title: "Priveliste", desc: "Vedere panoramica spre varf" },
+  { icon: "🌲", title: "Izolare Totală", desc: "Liniște deplină în inima naturii" },
+  { icon: "🔥", title: "Sobă de Lemn", desc: "Foc viu în fiecare cameră" },
+  { icon: "💧", title: "Pârâu de Munte", desc: "Apă cristalină din munții Hurghiș" },
+  { icon: "⛰️", title: "Priveliște", desc: "Vedere panoramică spre vârf" },
 ];
 
 /**
@@ -225,7 +225,7 @@ function TopBar() {
           textDecoration: "none", letterSpacing: 1,
           display: "flex", alignItems: "center", gap: 8, cursor: "pointer", flexShrink: 0,
         }}>
-          <SunIcon /> Dor de Altadata
+          <SunIcon /> Dor de Altădată
         </a>
 
         {/* Hamburger button – visible only on mobile via CSS */}
@@ -299,7 +299,7 @@ function Hero() {
           fontFamily: "'DM Sans', sans-serif", fontSize: 13,
           color: C.peach, letterSpacing: 3, textTransform: "uppercase",
         }}>
-          Refugiu in Natura
+          Refugiu în Natură
         </div>
 
         <h1 style={{
@@ -315,7 +315,7 @@ function Hero() {
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             fontStyle: "italic",
-          }}>Altadata</span>
+          }}>Altădată</span>
         </h1>
 
         <p style={{
@@ -324,7 +324,7 @@ function Hero() {
           color: C.peach, maxWidth: 540, margin: "0 auto 44px",
           lineHeight: 1.7, opacity: 0.85,
         }}>
-          O cabana izolata in munti, unde timpul sta pe loc si natura vorbeste in culori de apus.
+          O cabană izolată în munți, unde timpul stă pe loc și natura vorbește în culori de apus.
         </p>
 
         <a href="#" className="hero-cta" onClick={(e) => { e.preventDefault(); var el = document.getElementById("despre"); if (el) el.scrollIntoView({ behavior: "smooth" }); }} style={{
@@ -339,7 +339,7 @@ function Hero() {
           onMouseEnter={function(e) { e.currentTarget.style.transform = "translateY(-3px) scale(1.04)"; e.currentTarget.style.boxShadow = "0 14px 50px rgba(232,166,48,0.5)"; }}
           onMouseLeave={function(e) { e.currentTarget.style.transform = "translateY(0) scale(1)"; e.currentTarget.style.boxShadow = "0 8px 36px rgba(232,166,48,0.35)"; }}
         >
-          Descopera Povestea
+          Descoperă Povestea
         </a>
       </div>
     </section>
@@ -690,7 +690,7 @@ function VideoSection() {
         opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(40px)",
         transition: "all 1s cubic-bezier(.4,0,.2,1)",
       }}>
-        <SectionLabel>Experienta</SectionLabel>
+        <SectionLabel>Experiență</SectionLabel>
         <h2 style={headingStyle}>Video</h2>
 
         <div className="gallery-outer" style={{ marginTop: 48, display: "flex", alignItems: "center", gap: 12 }}>
@@ -840,7 +840,7 @@ function VideoSection() {
           fontFamily: "'Lora', serif", fontSize: 16, color: C.stone,
           textAlign: "center", marginTop: 24, fontStyle: "italic",
         }}>
-          Descopera atmosfera unica a cabanei noastre prin ochii celor care au fost aici.
+          Descoperă atmosfera unică a cabanei noastre prin ochii celor care au fost aici.
         </p>
       </div>
     </section>
@@ -899,14 +899,14 @@ function Contact() {
         opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(50px)",
         transition: "all 1s cubic-bezier(.4,0,.2,1)",
       }}>
-        <SectionLabel light>Rezervari</SectionLabel>
+        <SectionLabel light>Rezervări</SectionLabel>
         <h2 style={{ ...headingStyle, color: C.peach }}>Contact</h2>
 
         <p style={{
           fontFamily: "'Lora', serif", fontSize: 18, color: C.peach,
           marginTop: 20, lineHeight: 1.8, opacity: 0.8,
         }}>
-          Pentru rezervari si informatii, nu ezitati sa ne contactati. Va asteptam cu drag!
+          Pentru rezervări și informații, nu ezitați să ne contactați. Vă așteptăm cu drag!
         </p>
 
         <div style={{
@@ -941,7 +941,7 @@ function Contact() {
             onMouseEnter={function(e) { e.currentTarget.style.transform = "translateY(-3px) scale(1.04)"; e.currentTarget.style.boxShadow = "0 14px 50px rgba(232,166,48,0.5)"; }}
             onMouseLeave={function(e) { e.currentTarget.style.transform = "translateY(0) scale(1)"; e.currentTarget.style.boxShadow = "0 8px 32px rgba(232,166,48,0.3)"; }}
           >
-            <FacebookIcon size={20} /> Viziteaza-ne pe Facebook
+            <FacebookIcon size={20} /> Vizitează-ne pe Facebook
           </a>
         </div>
       </div>
@@ -956,7 +956,7 @@ function Footer() {
       borderTop: "1px solid rgba(232,166,48,0.12)", textAlign: "center",
     }}>
       <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: C.stone }}>
-        2025 Dor de Altadata - Cabana de munte. Toate drepturile rezervate.
+        © 2025 Dor de Altădată – Cabană de munte. Toate drepturile rezervate.
       </p>
     </footer>
   );
