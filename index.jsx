@@ -389,8 +389,8 @@ function Despre() {
             {aboutTexts.map(function(p, i) {
               return (
                 <p key={i} className="about-text" style={{
-                  fontFamily: "'Lora', Georgia, serif", fontSize: 18,
-                  fontWeight: 600, lineHeight: 1.9, color: C.bark, margin: "0 0 22px",
+                  fontFamily: "'Lora', Georgia, serif", fontSize: 19,
+                  fontWeight: 700, lineHeight: 1.95, color: "#2a1a0e", margin: "0 0 24px",
                   opacity: vis ? 1 : 0,
                   transform: vis ? "translateX(0)" : "translateX(30px)",
                   transition: "all 0.8s cubic-bezier(.4,0,.2,1) " + (0.3 + i * 0.15) + "s",
