@@ -63,10 +63,10 @@ var VIDEO_SOURCES = Object.keys(videoModules).map(function(path) {
 });
 
 var aboutTexts = [
-  "Totul a pornit din dragostea de traiul de altădată. S-a ivit ocazia să o găsesc pe această căbănuță. Vechii proprietari erau bătrâni și se așezau pe șezlong în fața cabanei — de acolo se vedea foarte bine tărâmul cu vârful lui.",
-  "Cabana este foarte izolată, foarte liniștită. Singurul deranj este, din când în când, trenul care trece prin vale.",
-  "Camerele din lemn, fiecare cu sobă de lemn, aduc cu drag aminte copilăria noastră. Se vede lumina focului în cameră. Cine dorește să se trezească în atmosfera timpului de altădată, aici are posibilitatea.",
-  "În spatele căbănuțelor există un pârâu care vine din munții Hurghiș, însoțit de un mic lac, și se varsă la circa 150 m în râul Moldova.",
+  "Totul a pornit din dragostea pentru frumusețea simplă a vieții de altădată. Așa am ajuns să găsim această căbănuță, ascunsă într-un colț de liniște, unde parcă timpul nu se grăbește niciodată. Foștii proprietari, doi oameni în vârstă, obișnuiau să stea pe șezlongul din fața cabanei și să privească în tihnă spre tărâmul care se deschide frumos către vârfurile din depărtare. Imaginea aceasta a rămas parcă vie în sufletul locului.",
+  "Cabana este retrasă, înconjurată de multă liniște și de o frumusețe care nu are nevoie de nimic în plus ca să impresioneze. Este locul în care uiți de agitație, de grabă și de tot ce apasă zi de zi. Aici, totul te îndeamnă să încetinești, să respiri adânc și să te bucuri de lucrurile mici, dar cu adevărat importante.",
+  "Camerele din lemn, fiecare cu soba ei, păstrează o căldură aparte, greu de descris în cuvinte. Lumina focului, mirosul lemnului și atmosfera aceea blândă trezesc amintiri din copilărie și aduc în suflet o stare de bine, de liniște și de acasă. Pentru cei care își doresc să se trezească într-un loc cu farmec autentic, unde se mai simte spiritul vremurilor de altădată, aici pot găsi exact acea stare rară și frumoasă.",
+  "În spatele căbănuțelor curge un pârâu limpede, venit din Munții Gurghiului, însoțit de un mic lac, iar la doar aproximativ 150 de metri se varsă în râul Moldova. Toată această frumusețe așază locul într-o poveste pe care nu doar o privești, ci o simți. Este un loc simplu, sincer și plin de suflet. Un loc în care vii ca să te odihnești, dar din care pleci cu inima mai plină.",
 ];
 
 var featuresList = [
