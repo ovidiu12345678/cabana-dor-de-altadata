@@ -967,10 +967,10 @@ function Footer() {
       padding: "40px 24px", background: C.sunsetDeep,
       borderTop: "1px solid rgba(232,166,48,0.12)", textAlign: "center",
     }}>
-      <div style={{
-        marginBottom: 16, paddingBottom: 16,
-        borderBottom: "1px solid rgba(232,166,48,0.1)",
-      }}>
+      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: C.stone, marginBottom: 16, paddingBottom: 16, borderBottom: "1px solid rgba(232,166,48,0.1)" }}>
+        © {year} Dor de Altădată – Cabană de munte. Toate drepturile rezervate.
+      </p>
+      <div>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: C.stone, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>
           Proiectat &amp; Dezvoltat de
         </p>
@@ -988,9 +988,6 @@ function Footer() {
           Inginer Software · Arhitect de Sisteme de Inteligență Artificială
         </p>
       </div>
-      <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: C.stone }}>
-        © {year} Dor de Altădată – Cabană de munte. Toate drepturile rezervate.
-      </p>
     </footer>
   );
 }
