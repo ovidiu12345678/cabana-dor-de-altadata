@@ -974,8 +974,15 @@ function Footer() {
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: C.stone, letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 6 }}>
           Proiectat &amp; Dezvoltat de
         </p>
-        <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, fontWeight: 700, color: C.amber, marginBottom: 4 }}>
+        <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 17, fontWeight: 700, color: C.amber, marginBottom: 4, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           Anton Ovidiu Gabriel
+          <a href="tel:0759337248" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 26, height: 26, borderRadius: "50%", background: "rgba(232,166,48,0.15)", border: "1px solid rgba(232,166,48,0.3)", color: C.amber, textDecoration: "none", transition: "all 0.2s" }}
+            onMouseEnter={function(e) { e.currentTarget.style.background = "rgba(232,166,48,0.3)"; }}
+            onMouseLeave={function(e) { e.currentTarget.style.background = "rgba(232,166,48,0.15)"; }}
+            title="0759 337 248"
+          >
+            <PhoneIcon size={13} color={C.amber} />
+          </a>
         </p>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: C.stone, fontStyle: "italic" }}>
           Inginer Software · Arhitect de Sisteme de Inteligență Artificială
