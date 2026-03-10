@@ -321,8 +321,9 @@ function Hero() {
         <p style={{
           fontFamily: "'DM Sans', sans-serif",
           fontSize: "clamp(16px, 2vw, 20px)",
-          color: C.peach, maxWidth: 540, margin: "0 auto 44px",
-          lineHeight: 1.7, opacity: 0.85,
+          color: C.gold, maxWidth: 540, margin: "0 auto 44px",
+          lineHeight: 1.7, fontWeight: 600,
+          textShadow: "0 2px 16px rgba(240,199,84,0.35)",
         }}>
           O cabană izolată în munți, unde timpul stă pe loc și natura vorbește în culori de apus.
         </p>
