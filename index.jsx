@@ -8,8 +8,8 @@ import ReactDOM from "react-dom/client";
 import heroBg from "./img_bacground_home/ChatGPT Image 6 mar. 2026, 23_07_15.png";
 
 var CABIN_PHONE = "+40 760 303 031";
-var CABIN_EMAIL = "panossu71@hotmail.com";
-var CABIN_FACEBOOK = "https://www.facebook.com/";
+var CABIN_EMAIL = "cabanadordealtadata@gmail.com";
+var CABIN_FACEBOOK = "https://www.facebook.com/people/Cabana-Dor-De-Altadat%C4%83/61585044550123/";
 
 var C = {
   sunsetDeep: "#1c0e08",
@@ -721,8 +721,7 @@ function VideoSection() {
                   key={currentVideo.src}
                   controls
                   src={currentVideo.src}
-                  onClick={function() { setFullSelected(selected); }}
-                  style={{ width: "100%", height: "100%", display: "block", cursor: "pointer", objectFit: "cover", background: "#111" }}
+                  style={{ width: "100%", height: "100%", display: "block", objectFit: "cover", background: "#111" }}
                 />
               ) : (
                 <div style={{ padding: 48, textAlign: "center", color: C.bark }}>
