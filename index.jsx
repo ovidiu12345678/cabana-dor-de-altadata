@@ -5,7 +5,7 @@
 /// <reference types="vite/client" />
 import { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
-import heroBg from "./img_bacground_home/ChatGPT Image 6 mar. 2026, 23_07_15.png";
+import heroBg from "./img_bacground_home/ChatGPT Image 6 mar. 2026, 23_07_15.jpeg";
 
 var CABIN_PHONE = "+40 760 303 031";
 var CABIN_EMAIL = "cabanadordealtadata@gmail.com";
