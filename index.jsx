@@ -295,9 +295,10 @@ function Hero() {
       }}>
         <div style={{
           display: "inline-block", padding: "8px 28px", borderRadius: 50,
-          border: "1px solid rgba(240,199,84,0.35)", marginBottom: 28,
+          border: "1px solid rgba(240,199,84,0.6)", marginBottom: 28,
           fontFamily: "'DM Sans', sans-serif", fontSize: 13,
-          color: C.peach, letterSpacing: 3, textTransform: "uppercase",
+          color: C.gold, letterSpacing: 3, textTransform: "uppercase", fontWeight: 700,
+          textShadow: "0 2px 12px rgba(240,199,84,0.4)",
         }}>
           Refugiu în Natură
         </div>
